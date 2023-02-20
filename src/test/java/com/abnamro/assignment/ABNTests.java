@@ -1,20 +1,25 @@
 package com.abnamro.assignment;
 
 
+import model.Issue;
 import org.testng.annotations.Test;
+
+import java.util.Random;
 
 public class ABNTests {
 
     /**
      * THIS CASE COVER 2 SCENARIOS - CREATE and READ
-     * 1. Initialize the Random issue with Iid, Title, Description and Type
-     * 2. Complete post request 'Create Issue' and save the Iid of the new Issue
-     * 3. Set received Iid for expectedIssue
-     * 4. Do API Get request to get added Issue by Iid and save it to actualIssue
-     * 5. Check expectedIssue and actualIssue are the same
+     * 1. Initialize the Random issue with Iid, Title, Description and Type and save it to expectedIssue
+     * 2. Complete post request 'Create Issue' and save it to createdIssue
+     * 3. Do API Get request to get added Issue by expectedIssue and save it to receivedIssue
+     * 5. Check expectedIssue, createdIssue and receivedIssue
      */
     @Test
-    public static void checkIssueIsCompletedSuccessfully(){
+    public static void checkIssueIsCreatedSuccessfully(){
+        Issue expectedIssue = new Issue(new Random());
+//        Issue createdIssue = createIssue()
+//        Issue receivedIssue = getIssue()
     }
 
 
