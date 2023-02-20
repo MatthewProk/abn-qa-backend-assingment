@@ -1,4 +1,4 @@
-package requests;
+package request;
 
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
