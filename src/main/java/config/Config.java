@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import static java.lang.Integer.parseInt;
+
 
 public class Config {
 
@@ -71,4 +73,14 @@ public class Config {
     public static String getContentTypeValue() {
         return prop.getProperty("content_type_value");
     }
+
+    /**
+     * This method gets value of "project" from resources and returns it as a string
+     *
+     * @return value of project
+     */
+    public static int getProject() {
+        return parseInt(prop.getProperty("project"));
+    }
 }
+
