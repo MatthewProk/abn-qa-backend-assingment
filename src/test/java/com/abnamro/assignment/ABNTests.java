@@ -1,10 +1,8 @@
 package com.abnamro.assignment;
 
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 
+import org.testng.annotations.Test;
 
-@Tag("UnitTest")
 public class ABNTests {
 
     /**
@@ -19,15 +17,6 @@ public class ABNTests {
     public static void checkIssueIsCompletedSuccessfully(){
     }
 
-
-    /**
-     * 1. Initialize the Random expected issue with Iid, Title, Description and Type
-     * 2. Complete DELETE request
-     * 3. Check deleted issue does not exist anymore
-     */
-    @Test
-    public static void checkIssueIsGotSuccessfully(){
-    }
 
     /**
      * 1. Initialize the Random expected issue with Iid, Title, Description and Type
