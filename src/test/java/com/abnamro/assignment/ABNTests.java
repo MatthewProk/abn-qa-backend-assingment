@@ -1,6 +1,7 @@
 package com.abnamro.assignment;
 
 
+import com.abnamro.BaseTest;
 import model.Issue;
 import org.testng.annotations.Test;
 
@@ -10,7 +11,7 @@ import static checker.Checkers.checkIssuesAreTheSame;
 import static util.RequestUtil.createIssue;
 import static util.RequestUtil.getIssue;
 
-public class ABNTests {
+public class ABNTests extends BaseTest {
 
     /**
      * THIS CASE COVER 2 SCENARIOS - CREATE and READ
