@@ -6,6 +6,9 @@ import org.testng.annotations.Test;
 
 import java.util.Random;
 
+import static util.RequestUtil.createIssue;
+import static util.RequestUtil.getIssue;
+
 public class ABNTests {
 
     /**
@@ -18,8 +21,9 @@ public class ABNTests {
     @Test
     public static void checkIssueIsCreatedSuccessfully(){
         Issue expectedIssue = new Issue(new Random());
-//        Issue createdIssue = createIssue()
-//        Issue receivedIssue = getIssue()
+        Issue createdIssue = createIssue(expectedIssue);
+        Issue receivedIssue = getIssue(expectedIssue);
+        // check that issues are the same
     }
 
 
