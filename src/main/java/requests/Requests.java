@@ -3,7 +3,7 @@ package requests;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 
-import static config.Config.getBaseUrl;
+import static config.Config.*;
 
 public class Requests {
 
@@ -12,6 +12,8 @@ public class Requests {
         RestAssured.useRelaxedHTTPSValidation();
         RestAssured.requestSpecification = new RequestSpecBuilder()
                 .build()
-                .header();
+                .header(getPrivateToken(), getPrivateTokenValue())
+                .header(getContentType(), getContentTypeValue());
     }
+
 }
