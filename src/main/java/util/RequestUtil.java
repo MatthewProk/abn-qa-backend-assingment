@@ -49,8 +49,8 @@ public class RequestUtil extends Requests {
      * Checks the response status code and returns the list of issues as Java objects.
      * @return a list of issues
      */
-    public static List<Issue> getIssues() {
-        Response response = getIssuesRequest();
+    public static List<Issue> getIssues(int projectId) {
+        Response response = getIssuesRequest(projectId);
         checkPositiveStatusCode(response);
         return gson.fromJson(responseToString(response), new TypeToken<List<Issue>>() {}.getType());
     }

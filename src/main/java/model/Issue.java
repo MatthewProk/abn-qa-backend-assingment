@@ -1,6 +1,6 @@
 package model;
 
-import config.Config;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import util.Util;
 
@@ -13,9 +13,11 @@ import static config.Config.getProject;
 @Data
 public class Issue {
 
+    @SerializedName("project_id")
     private int projectId;
     private int id;
     private int iid;
+    @SerializedName("created_at")
     private String createdAt;
     private String title;
     private String state;
@@ -25,13 +27,16 @@ public class Issue {
     private List<String> labels;
     private int upvotes;
     private int downvotes;
+    @SerializedName("merge_requests_count")
     private int mergeRequestsCount;
     private Author author;
     private String description;
     private String updated_at;
     private String closed_at;
     private String webUrl;
+    @SerializedName("web_url")
     private String issueType;
+    @SerializedName("issue_type")
     private String severity;
 
 

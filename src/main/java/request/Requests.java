@@ -21,10 +21,10 @@ public class Requests {
                 .header(getContentType(), getContentTypeValue());
     }
 
-    protected static Response getIssuesRequest() {
+    protected static Response getIssuesRequest(int projectId) {
         return RestAssured
                 .given()
-                .get("issues");
+                .get("projects/" + projectId + "/issues");
     }
 
 
