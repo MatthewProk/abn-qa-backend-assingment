@@ -1,11 +1,14 @@
 package model;
 
+import config.Config;
 import lombok.Data;
 import util.Util;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+
+import static config.Config.getProject;
 
 @Data
 public class Issue {
@@ -33,8 +36,8 @@ public class Issue {
 
 
     public Issue(Random random){
-        this.setId(random.nextInt(1000));
-        this.setProjectId(getProjectId());
+        this.setIid(random.nextInt(1000));
+        this.setProjectId(getProject());
         this.setDescription("Issue description: " + Util.generateRandomString(20, random));
         this.setTitle("Issue description: " + Util.generateRandomString(8, random));
         this.setType("ISSUE");

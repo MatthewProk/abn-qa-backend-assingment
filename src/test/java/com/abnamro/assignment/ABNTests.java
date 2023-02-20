@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import java.util.Random;
 
+import static checker.Checkers.checkIssuesAreTheSame;
 import static util.RequestUtil.createIssue;
 import static util.RequestUtil.getIssue;
 
@@ -23,7 +24,7 @@ public class ABNTests {
         Issue expectedIssue = new Issue(new Random());
         Issue createdIssue = createIssue(expectedIssue);
         Issue receivedIssue = getIssue(expectedIssue);
-        // check that issues are the same
+        checkIssuesAreTheSame(expectedIssue, createdIssue, receivedIssue);
     }
 
 
