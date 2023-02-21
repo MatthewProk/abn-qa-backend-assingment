@@ -1,6 +1,7 @@
 package util;
 
 import com.google.gson.reflect.TypeToken;
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import model.Issue;
 import request.Requests;
@@ -22,6 +23,7 @@ public class RequestUtil extends Requests {
      * @param issue the Issue object that will be used to create the issue via the API
      * @return the Issue object
      */
+    @Step
     public static Issue createIssue(Issue issue) {
         Response response = createIssueRequest(issue);
         checkPositiveStatusCode(response);
@@ -38,6 +40,7 @@ public class RequestUtil extends Requests {
      * @param issue The Issue object used to retrieve the Issue from the server
      * @return The retrieved Issue object
      */
+    @Step
     public static Issue getIssue(Issue issue) {
         Response response = getIssueRequest(issue);
         checkIssueIsNotDuplicated(response);
@@ -51,6 +54,7 @@ public class RequestUtil extends Requests {
      *
      * @return a list of issues
      */
+    @Step
     public static List<Issue> getIssues(int projectId) {
         Response response = getIssuesRequest(projectId);
         checkPositiveStatusCode(response);
@@ -64,6 +68,7 @@ public class RequestUtil extends Requests {
      *
      * @param issue The issue to be deleted
      */
+    @Step
     public static void deleteIssue(Issue issue) {
         Response response = deleteIssueRequest(issue);
         checkPositiveStatusCode(response);
@@ -79,6 +84,7 @@ public class RequestUtil extends Requests {
      * @param updates a Map of the updates to be made
      * @return the updated Issue object
      */
+    @Step
     public static Issue updateIssue(Issue issue, Map<String, String> updates) {
         updates.forEach(requestSpecification::queryParam);
         Response response = updateIssueRequest(issue);
@@ -93,10 +99,12 @@ public class RequestUtil extends Requests {
      * If not empty, it deletes the issues using RequestUtil.deleteIssue() method.
      * The loop continues until all issues are deleted from the project.
      */
+    @Step
     public static void cleanupTestIssues() {
         List<Issue> issues = getIssues(getProject());
         while (!getIssues(getProject()).isEmpty()) {
             issues.forEach(RequestUtil::deleteIssue);
         }
     }
+
 }

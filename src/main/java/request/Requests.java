@@ -1,6 +1,7 @@
 package request;
 
 import com.google.gson.Gson;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
@@ -31,6 +32,7 @@ public class Requests {
      * @param projectId The id of project which issues method tries to get.
      * @return The response of the REST API call.
      */
+    @Step
     protected static Response getIssuesRequest(int projectId) {
         return RestAssured
                 .given()
@@ -43,6 +45,7 @@ public class Requests {
      * @param issue The issue object to be updated.
      * @return The response of the REST API call.
      */
+    @Step
     protected static Response createIssueRequest(Issue issue) {
 
         return RestAssured
@@ -58,6 +61,7 @@ public class Requests {
      * @param issue The issue object to be updated.
      * @return The response of the REST API call.
      */
+    @Step
     protected static Response deleteIssueRequest(Issue issue) {
 
         return RestAssured
@@ -72,6 +76,7 @@ public class Requests {
      * @param issue The issue object to be updated.
      * @return The response of the REST API call.
      */
+    @Step
     public static Response getIssueRequest(Issue issue) {
         return RestAssured
                 .given()
@@ -85,9 +90,11 @@ public class Requests {
      * @param issue The issue object to be updated.
      * @return The response of the REST API call.
      */
+    @Step
     protected static Response updateIssueRequest(Issue issue) {
         return RestAssured
                 .given()
                 .put("projects/" + issue.getProjectId() + "/issues/" + issue.getIid());
     }
+
 }

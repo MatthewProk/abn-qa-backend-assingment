@@ -1,18 +1,13 @@
 package com.abnamro;
 
-import model.Issue;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
-import util.RequestUtil;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static config.Config.getProject;
 import static util.RequestUtil.cleanupTestIssues;
-import static util.RequestUtil.getIssues;
 
 public class BaseTest {
 
@@ -65,4 +60,5 @@ public class BaseTest {
     public void cleanupDataAfterTest() {
         cleanupTestIssues();
     }
+
 }

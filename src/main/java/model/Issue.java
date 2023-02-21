@@ -39,7 +39,6 @@ public class Issue {
     private String issueType;
     private String severity;
 
-
     public Issue(Random random){
         this.setIid(random.nextInt(1000));
         this.setProjectId(getProject());
@@ -66,4 +65,5 @@ public class Issue {
                 Objects.equals(this.title, other.title) &&
                 Objects.equals(this.description, other.description) &&
                 Objects.equals(this.type, other.type);    }
+
 }

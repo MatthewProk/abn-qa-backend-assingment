@@ -1,5 +1,6 @@
 package checker;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import model.Issue;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ public class Checkers {
      *
      * @param response The Response object from the request.
      */
+    @Step
     public static void checkPositiveStatusCode(Response response) {
         int code = response.statusCode();
         if (code == 201 || code == 200 || code == 204) {
@@ -38,6 +40,7 @@ public class Checkers {
      *
      * @param response the response to be checked for a duplicated issue
      */
+    @Step
     public static void checkIssueIsNotDuplicated(Response response) {
         if (response.statusCode() == 409) {
             fail("You created the duplicated Issue. There is some issue that already has this Iid. You need to recheck it.\n" +
@@ -55,6 +58,7 @@ public class Checkers {
      *
      * @param issues an array of Issue objects to be compared
      */
+    @Step
     public static void checkIssuesAreTheSame(Issue... issues) {
         boolean result = range(1, issues.length).allMatch(i -> issues[i - 1].equals(issues[i]));
         if (result) {
@@ -74,6 +78,7 @@ public class Checkers {
      * @param data  the data for issue update
      * @param issue updated issue
      */
+    @Step
     public static void checkIssueIsUpdated(Map<String, String> data, Issue issue) {
         data.forEach((key, value) -> {
             switch (key) {
@@ -103,6 +108,7 @@ public class Checkers {
      *
      * @param response the response to check for object existence
      */
+    @Step
     public static void checkObjectDoesNotExist(Response response) {
         if (response.statusCode() == 404) {
             LOGGER.info("Object does not exist! Status code: " + response.statusCode());
@@ -118,6 +124,7 @@ public class Checkers {
      *
      * @param issue an Issue object with the parameters of the issue to check
      */
+    @Step
     public static void checkIssueDoesNotExist(Issue issue) {
         Response response = getIssueRequest(issue);
         checkObjectDoesNotExist(response);

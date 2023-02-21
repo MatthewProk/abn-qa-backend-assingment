@@ -1,5 +1,6 @@
 package config;
 
+import io.qameta.allure.Step;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +35,7 @@ public class Config {
      *
      * @return value of url
      */
+    @Step
     public static String getBaseUrl() {
         return prop.getProperty("url");
     }
@@ -43,6 +45,7 @@ public class Config {
      *
      * @return value of private_token
      */
+    @Step
     public static String getPrivateToken() {
         return prop.getProperty("private_token");
     }
@@ -52,6 +55,7 @@ public class Config {
      *
      * @return value of private_token_value
      */
+    @Step
     public static String getPrivateTokenValue() {
         return prop.getProperty("private_token_value");
     }
@@ -61,6 +65,7 @@ public class Config {
      *
      * @return value of content_type
      */
+    @Step
     public static String getContentType() {
         return prop.getProperty("content_type");
     }
@@ -70,6 +75,7 @@ public class Config {
      *
      * @return value of content_type_value
      */
+    @Step
     public static String getContentTypeValue() {
         return prop.getProperty("content_type_value");
     }
@@ -79,8 +85,9 @@ public class Config {
      *
      * @return value of project
      */
+    @Step
     public static int getProject() {
         return parseInt(prop.getProperty("project"));
     }
-}
 
+}

@@ -1,5 +1,6 @@
 package util;
 
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import java.util.Random;
@@ -12,6 +13,7 @@ public class Util {
      * @param response the response whose body to convert to a string
      * @return the body of the response as a string
      */
+    @Step
     public static String responseToString(Response response) {
         return response.getBody().asString();
     }
@@ -23,6 +25,7 @@ public class Util {
      * @param random The random generator to use.
      * @return The generated random string.
      */
+    @Step
     public static String generateRandomString(int length, Random random) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -31,4 +34,5 @@ public class Util {
         }
         return sb.toString();
     }
+
 }
