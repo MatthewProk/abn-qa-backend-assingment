@@ -68,7 +68,16 @@ public class RequestUtil extends Requests {
         checkPositiveStatusCode(response);
     }
 
-
+    /**
+     * The method adds the parameters for issue update retrieved from Map into queryParam.
+     * Updates an issue with the given parameters.
+     * Checks the request is completed successfully.
+     * Returns the updated issue
+     *
+     * @param issue   the issue to update
+     * @param updates a Map of the updates to be made
+     * @return the updated Issue object
+     */
     public static Issue updateIssue(Issue issue, Map<String, String> updates) {
         updates.forEach(requestSpecification::queryParam);
         Response response = updateIssueRequest(issue);

@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 import java.util.*;
 
 import static checker.Checkers.*;
+import static constants.TestGroups.IMPLEMENTED;
+import static constants.TestGroups.IN_DEVELOPMENT;
 import static util.RequestUtil.*;
 
 public class ABNTests extends BaseTest {
@@ -19,7 +21,7 @@ public class ABNTests extends BaseTest {
      * 3. Do API Get request to get added Issue by expectedIssue and save it to receivedIssue
      * 5. Check expectedIssue, createdIssue and receivedIssue objects are the same
      */
-    @Test
+    @Test(groups = IMPLEMENTED)
     public static void checkIssueIsCreatedSuccessfully() {
         Issue expectedIssue = new Issue(new Random());
         Issue createdIssue = createIssue(expectedIssue);
@@ -33,7 +35,7 @@ public class ABNTests extends BaseTest {
      * 2. Complete DELETE request
      * 3. Check deleted issue does not exist anymore
      */
-    @Test
+    @Test(groups = IMPLEMENTED)
     public static void checkIssueIsDeletedSuccessfully() {
         Issue expectedIssue = new Issue(new Random());
         createIssue(expectedIssue);
@@ -49,7 +51,7 @@ public class ABNTests extends BaseTest {
      * 5. Check the updated issue has updated fields
      * 6. Check the updated issue and the received issue are the same
      */
-    @Test(dataProvider = "updateIssue")
+    @Test(groups = IMPLEMENTED, dataProvider = "updateIssue")
     public static void checkIssueIsEditedSuccessfully(Map<String, String> data) {
         Issue issue = new Issue(new Random());
         createIssue(issue);
@@ -58,5 +60,13 @@ public class ABNTests extends BaseTest {
         checkIssueIsUpdated(data, updatedIssue);
         checkIssueIsUpdated(data, receivedIssue);
         checkIssuesAreTheSame(updatedIssue, receivedIssue);
+    }
+
+    /**
+     * This test was added to show that it should not be added to test run because of group = IN_DEVELOPMENT
+     */
+    @Test(groups = IN_DEVELOPMENT)
+    public static void unfinishedTest(){
+        //
     }
 }

@@ -21,13 +21,24 @@ public class Requests {
                 .header(getContentType(), getContentTypeValue());
     }
 
+    /**
+     * The method sends a GET request to get a list of issues with for specified projectId.
+     *
+     * @param projectId The id of project which issues method tries to get.
+     * @return The response of the REST API call.
+     */
     protected static Response getIssuesRequest(int projectId) {
         return RestAssured
                 .given()
                 .get("projects/" + projectId + "/issues");
     }
 
-
+    /**
+     * The method sends a POST request to create an issue with the specified projectId and Iid.
+     *
+     * @param issue The issue object to be updated.
+     * @return The response of the REST API call.
+     */
     protected static Response createIssueRequest(Issue issue) {
 
         return RestAssured
@@ -37,6 +48,12 @@ public class Requests {
     }
 
 
+    /**
+     * The method sends a DELETE request to delete an issue with the specified projectId and Iid.
+     *
+     * @param issue The issue object to be updated.
+     * @return The response of the REST API call.
+     */
     protected static Response deleteIssueRequest(Issue issue) {
 
         return RestAssured
@@ -45,13 +62,25 @@ public class Requests {
                 .delete("projects/" + issue.getProjectId() + "/issues/" + issue.getIid());
     }
 
-
+    /**
+     * The method sends a GET request to receive an issue with the specified projectId and Iid.
+     *
+     * @param issue The issue object to be updated.
+     * @return The response of the REST API call.
+     */
     public static Response getIssueRequest(Issue issue) {
         return RestAssured
                 .given()
                 .get("projects/" + issue.getProjectId() + "/issues/" + issue.getIid());
     }
 
+
+    /**
+     * The method sends a PUT request to update an issue with the specified projectId and Iid.
+     *
+     * @param issue The issue object to be updated.
+     * @return The response of the REST API call.
+     */
     protected static Response updateIssueRequest(Issue issue) {
         return RestAssured
                 .given()

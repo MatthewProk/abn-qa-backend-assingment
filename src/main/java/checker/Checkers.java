@@ -68,7 +68,8 @@ public class Checkers {
     }
 
     /**
-     * This method checks that updated Issue fields match with values for update contained by map.
+     * This method checks that updated Issue fields match with values for update provided by map.
+     * If a specific key in the Map does not exist in the switch statement, it logs a message for further inspection.
      *
      * @param data  the data for issue update
      * @param issue updated issue

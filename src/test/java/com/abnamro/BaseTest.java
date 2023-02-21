@@ -1,7 +1,7 @@
 package com.abnamro;
 
 import model.Issue;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.DataProvider;
 import util.RequestUtil;
 
@@ -47,7 +47,7 @@ public class BaseTest {
      * associated with the project, and deletes them one by one using the deleteIssue() method. If no issues
      * are present, the method will not take any action.
      */
-    @AfterTest
+    @AfterSuite(alwaysRun = true)
     public void cleanupDataAfterTest() {
         List<Issue> issues = getIssues(getProject());
         if (!issues.isEmpty()) {
