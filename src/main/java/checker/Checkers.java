@@ -89,6 +89,7 @@ public class Checkers {
                             "is not equal to " + pair.getValue());
                     break;
                 default:
+                    LOGGER.info("There is not checks for this case:" + pair.getKey() + ". Do we need to add it?");
                     break;
             }
         }
