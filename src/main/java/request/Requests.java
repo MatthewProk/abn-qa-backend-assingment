@@ -51,4 +51,10 @@ public class Requests {
                 .given()
                 .get("projects/" + issue.getProjectId() + "/issues/" + issue.getIid());
     }
+
+    protected static Response updateIssueRequest(Issue issue) {
+        return RestAssured
+                .given()
+                .put("projects/" + issue.getProjectId() + "/issues/" + issue.getIid());
+    }
 }

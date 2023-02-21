@@ -5,10 +5,11 @@ import model.Issue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.range;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 import static request.Requests.getIssueRequest;
 
 public class Checkers {
@@ -63,6 +64,33 @@ public class Checkers {
             stream(issues).forEach(issue -> LOGGER.info("ISSUE: " + issue.getIid() + ", " + issue.getProjectId() + ", " + issue.getTitle() + ", " +
                     issue.getDescription() + ", " + issue.getType()));
             fail("The given issues are not the same!!!");
+        }
+    }
+
+    /**
+     * This method checks that updated Issue fields match with values for update contained by map.
+     *
+     * @param data the data for issue update
+     * @param issue updated issue
+     */
+    public static void checkIssueIsUpdated(Map<String, String> data, Issue issue) {
+        for (Map.Entry<String, String> pair : data.entrySet()) {
+            switch (pair.getKey()) {
+                case "title":
+                    assertEquals(issue.getTitle(), pair.getValue(), "Error: " + issue.getTitle() +
+                            "is not equal to " + pair.getValue());
+                    break;
+                case "issue_type":
+                    assertEquals(issue.getIssueType(), pair.getValue(), "Error: " + issue.getIssueType() +
+                            "is not equal to " + pair.getValue());
+                    break;
+                case "description":
+                    assertEquals(issue.getDescription(), pair.getValue(), "Error: " + issue.getDescription() +
+                            "is not equal to " + pair.getValue());
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

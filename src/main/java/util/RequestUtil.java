@@ -5,9 +5,10 @@ import io.restassured.response.Response;
 import model.Issue;
 import request.Requests;
 
-import java.util.List;
+import java.util.*;
 
 import static checker.Checkers.*;
+import static io.restassured.RestAssured.requestSpecification;
 import static util.Util.responseToString;
 
 public class RequestUtil extends Requests {
@@ -66,4 +67,13 @@ public class RequestUtil extends Requests {
         Response response = deleteIssueRequest(issue);
         checkPositiveStatusCode(response);
     }
+
+
+    public static Issue updateIssue(Issue issue, Map<String, String> updates) {
+        updates.forEach(requestSpecification::queryParam);
+        Response response = updateIssueRequest(issue);
+        checkPositiveStatusCode(response);
+        return gson.fromJson(responseToString(response), Issue.class);
+    }
+
 }

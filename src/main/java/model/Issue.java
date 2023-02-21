@@ -33,10 +33,10 @@ public class Issue {
     private String description;
     private String updated_at;
     private String closed_at;
-    private String webUrl;
     @SerializedName("web_url")
-    private String issueType;
+    private String webUrl;
     @SerializedName("issue_type")
+    private String issueType;
     private String severity;
 
 
