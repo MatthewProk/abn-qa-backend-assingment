@@ -4,9 +4,12 @@ import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
+
 import model.Issue;
 
 import static config.Config.*;
+import static io.restassured.RestAssured.expect;
+import static org.hamcrest.Matchers.lessThan;
 
 public class Requests {
 
@@ -15,6 +18,7 @@ public class Requests {
     static {
         RestAssured.baseURI = getBaseUrl();
         RestAssured.useRelaxedHTTPSValidation();
+        RestAssured.responseSpecification = expect().time(lessThan(5000L));
         RestAssured.requestSpecification = new RequestSpecBuilder()
                 .build()
                 .header(getPrivateToken(), getPrivateTokenValue())

@@ -10,6 +10,7 @@ import java.util.*;
 import static checker.Checkers.*;
 import static constants.TestGroups.IMPLEMENTED;
 import static constants.TestGroups.IN_DEVELOPMENT;
+import static org.testng.Assert.fail;
 import static util.RequestUtil.*;
 
 public class ABNTests extends BaseTest {
@@ -67,6 +68,6 @@ public class ABNTests extends BaseTest {
      */
     @Test(groups = IN_DEVELOPMENT)
     public static void unfinishedTest(){
-        //
+        fail();
     }
 }

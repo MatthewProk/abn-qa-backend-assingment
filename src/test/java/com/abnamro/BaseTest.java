@@ -2,6 +2,7 @@ package com.abnamro;
 
 import model.Issue;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import util.RequestUtil;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static config.Config.getProject;
+import static util.RequestUtil.cleanupTestIssues;
 import static util.RequestUtil.getIssues;
 
 public class BaseTest {
@@ -43,15 +45,24 @@ public class BaseTest {
     }
 
     /**
-     * This method is used to cleanup the test data after a tests have been executed. It retrieves all issues
-     * associated with the project, and deletes them one by one using the deleteIssue() method. If no issues
-     * are present, the method will not take any action.
+     * This method is used as a TestNG @BeforeSuite method with the alwaysRun attribute set to true,
+     * meaning it will always be executed even if the tests fail. The method calls the static
+     * cleanupTestIssues() method from the RequestUtil class to delete all the issues created during
+     * the test run.
+     */
+    @BeforeSuite(alwaysRun = true)
+    public void cleanupDataBeforeTest() {
+        cleanupTestIssues();
+    }
+
+    /**
+     * This method is used as a TestNG @AfterSuite method with the alwaysRun attribute set to true,
+     * meaning it will always be executed even if the tests fail. The method calls the static
+     * cleanupTestIssues() method from the RequestUtil class to delete all the issues created during
+     * the test run.
      */
     @AfterSuite(alwaysRun = true)
     public void cleanupDataAfterTest() {
-        List<Issue> issues = getIssues(getProject());
-        if (!issues.isEmpty()) {
-            issues.forEach(RequestUtil::deleteIssue);
-        }
+        cleanupTestIssues();
     }
 }

@@ -8,6 +8,7 @@ import request.Requests;
 import java.util.*;
 
 import static checker.Checkers.*;
+import static config.Config.getProject;
 import static io.restassured.RestAssured.requestSpecification;
 import static util.Util.responseToString;
 
@@ -85,4 +86,17 @@ public class RequestUtil extends Requests {
         return gson.fromJson(responseToString(response), Issue.class);
     }
 
+    /**
+     * This method is responsible for cleaning up the test issues by deleting them.
+     * It retrieves a list of issues by calling getIssues() method with the current project.
+     * It then enters into a loop and checks if the list of issues is empty or not.
+     * If not empty, it deletes the issues using RequestUtil.deleteIssue() method.
+     * The loop continues until all issues are deleted from the project.
+     */
+    public static void cleanupTestIssues() {
+        List<Issue> issues = getIssues(getProject());
+        while (!getIssues(getProject()).isEmpty()) {
+            issues.forEach(RequestUtil::deleteIssue);
+        }
+    }
 }
