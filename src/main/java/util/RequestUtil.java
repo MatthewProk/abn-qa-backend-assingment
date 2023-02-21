@@ -7,8 +7,7 @@ import request.Requests;
 
 import java.util.List;
 
-import static checker.Checkers.checkIssueIsNotDuplicated;
-import static checker.Checkers.checkPositiveStatusCode;
+import static checker.Checkers.*;
 import static util.Util.responseToString;
 
 public class RequestUtil extends Requests {
@@ -47,12 +46,14 @@ public class RequestUtil extends Requests {
     /**
      * This method sends a GET request to the server to retrieve a list of all issues.
      * Checks the response status code and returns the list of issues as Java objects.
+     *
      * @return a list of issues
      */
     public static List<Issue> getIssues(int projectId) {
         Response response = getIssuesRequest(projectId);
         checkPositiveStatusCode(response);
-        return gson.fromJson(responseToString(response), new TypeToken<List<Issue>>() {}.getType());
+        return gson.fromJson(responseToString(response), new TypeToken<List<Issue>>() {
+        }.getType());
     }
 
     /**

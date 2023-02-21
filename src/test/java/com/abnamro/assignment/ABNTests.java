@@ -7,9 +7,8 @@ import org.testng.annotations.Test;
 
 import java.util.Random;
 
-import static checker.Checkers.checkIssuesAreTheSame;
-import static util.RequestUtil.createIssue;
-import static util.RequestUtil.getIssue;
+import static checker.Checkers.*;
+import static util.RequestUtil.*;
 
 public class ABNTests extends BaseTest {
 
@@ -18,7 +17,7 @@ public class ABNTests extends BaseTest {
      * 1. Initialize the Random issue with Iid, Title, Description and Type and save it to expectedIssue
      * 2. Complete post request 'Create Issue' and save it to createdIssue
      * 3. Do API Get request to get added Issue by expectedIssue and save it to receivedIssue
-     * 5. Check expectedIssue, createdIssue and receivedIssue
+     * 5. Check expectedIssue, createdIssue and receivedIssue objects are the same
      */
     @Test
     public static void checkIssueIsCreatedSuccessfully(){
@@ -37,6 +36,10 @@ public class ABNTests extends BaseTest {
      */
     @Test
     public static void checkIssueIsDeletedSuccessfully(){
+        Issue expectedIssue = new Issue(new Random());
+        createIssue(expectedIssue);
+        deleteIssue(expectedIssue);
+        checkIssueDoesNotExist(expectedIssue);
     }
 
     /**

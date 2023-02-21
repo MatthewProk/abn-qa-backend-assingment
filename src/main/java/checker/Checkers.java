@@ -9,6 +9,7 @@ import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.range;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+import static request.Requests.getIssueRequest;
 
 public class Checkers {
 
@@ -64,4 +65,32 @@ public class Checkers {
             fail("The given issues are not the same!!!");
         }
     }
+
+    /**
+     * Checks if an object does not exist by verifying the status code in the given response.
+     * If the status code is 404, the method logs an info message and asserts that the object does not exist.
+     * If the status code is 200 or 201, the method fails the test and returns an error message indicating that the object still exists.
+     *
+     * @param response the response to check for object existence
+     */
+    public static void checkObjectDoesNotExist(Response response) {
+        if (response.statusCode() == 404) {
+            LOGGER.info("Object does not exist! Status code: " + response.statusCode());
+            assertTrue(true);
+        } else if (response.statusCode() == 200 || response.statusCode() == 201) {
+            fail("Object still exists! Message: " + response.getBody().asString());
+        }
+    }
+
+    /**
+     * This method sends a GET request to try to get an issue with the provided parameters
+     * and checks that the response status code is 404 Not Found.
+     *
+     * @param issue an Issue object with the parameters of the issue to check
+     */
+    public static void checkIssueDoesNotExist(Issue issue) {
+        Response response = getIssueRequest(issue);
+        checkObjectDoesNotExist(response);
+    }
+
 }
