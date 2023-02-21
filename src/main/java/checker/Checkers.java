@@ -70,29 +70,29 @@ public class Checkers {
     /**
      * This method checks that updated Issue fields match with values for update contained by map.
      *
-     * @param data the data for issue update
+     * @param data  the data for issue update
      * @param issue updated issue
      */
     public static void checkIssueIsUpdated(Map<String, String> data, Issue issue) {
-        for (Map.Entry<String, String> pair : data.entrySet()) {
-            switch (pair.getKey()) {
+        data.forEach((key, value) -> {
+            switch (key) {
                 case "title":
-                    assertEquals(issue.getTitle(), pair.getValue(), "Error: " + issue.getTitle() +
-                            "is not equal to " + pair.getValue());
+                    assertEquals(issue.getTitle(), value, "Error: " + issue.getTitle() +
+                            "is not equal to " + value);
                     break;
                 case "issue_type":
-                    assertEquals(issue.getIssueType(), pair.getValue(), "Error: " + issue.getIssueType() +
-                            "is not equal to " + pair.getValue());
+                    assertEquals(issue.getIssueType(), value, "Error: " + issue.getIssueType() +
+                            "is not equal to " + value);
                     break;
                 case "description":
-                    assertEquals(issue.getDescription(), pair.getValue(), "Error: " + issue.getDescription() +
-                            "is not equal to " + pair.getValue());
+                    assertEquals(issue.getDescription(), value, "Error: " + issue.getDescription() +
+                            "is not equal to " + value);
                     break;
                 default:
-                    LOGGER.info("There is not checks for this case:" + pair.getKey() + ". Do we need to add it?");
+                    LOGGER.info("There is not checks for this case:" + key + ". Do we need to add it?");
                     break;
             }
-        }
+        });
     }
 
     /**
