@@ -1,6 +1,7 @@
 package com.abnamro;
 
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 
 import java.util.HashMap;
@@ -46,17 +47,17 @@ public class BaseTest {
         };
     }
 
-//    /**
-//     * This method is used as a TestNG @BeforeSuite method with the alwaysRun attribute set to true,
-//     * meaning it will always be executed even if the tests fail. The method calls the static
-//     * cleanupTestIssues() method from the RequestUtil class to delete all the issues created during
-//     * the test run.
-//     */
-//    @BeforeSuite(alwaysRun = true)
-//    public void cleanupDataBeforeTest() {
-//        cleanupTestIssues();
-//        System.setProperty("logback.configurationFile", "src/main/resources/log4j2.xml");
-//    }
+    /**
+     * This method is used as a TestNG @BeforeSuite method with the alwaysRun attribute set to true,
+     * meaning it will always be executed even if the tests fail. The method calls the static
+     * cleanupTestIssues() method from the RequestUtil class to delete all the issues created during
+     * the test run.
+     */
+    @BeforeSuite(alwaysRun = true)
+    public void cleanupDataBeforeTest() {
+        cleanupTestIssues();
+        System.setProperty("logback.configurationFile", "src/main/resources/log4j2.xml");
+    }
 
     /**
      * This method is used as a TestNG @AfterSuite method with the alwaysRun attribute set to true,

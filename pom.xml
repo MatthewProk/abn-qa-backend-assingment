@@ -99,4 +99,13 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>RunSecurityTests</id>
+            <properties>
+                <testng.file>src/test/resources/securityTests.xml</testng.file>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>

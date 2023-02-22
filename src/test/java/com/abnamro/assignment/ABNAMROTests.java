@@ -11,12 +11,11 @@ import org.testng.annotations.Test;
 import java.util.*;
 
 import static checker.Checkers.*;
-import static constants.TestGroups.IMPLEMENTED;
-import static constants.TestGroups.IN_DEVELOPMENT;
+import static constants.TestGroups.*;
 import static org.testng.Assert.fail;
 import static util.RequestUtil.*;
 
-public class ABNTests extends BaseTest {
+public class ABNAMROTests extends BaseTest {
 
     @Description("" +
             " THIS CASE COVER 2 SCENARIOS - CREATE and READ\n" +
@@ -74,7 +73,7 @@ public class ABNTests extends BaseTest {
             " 5. Check that response has status code 401\n" +
             " 6. Return back the header related to Private Token")
     @Severity(SeverityLevel.CRITICAL)
-    @Test(groups = IMPLEMENTED)
+    @Test(groups = {IMPLEMENTED, SECURITY})
     public static void checkImpossibilityToCompletePostPutAndDeleteRequestsWithoutAuthorizationToken() {
         checkAuthorizationErrorForPostDeleteAndPutRequests();
     }
@@ -87,9 +86,9 @@ public class ABNTests extends BaseTest {
             " 5. Check that response has status code 404\n" +
             " 6. Return back the header related to Private Token")
     @Severity(SeverityLevel.CRITICAL)
-    @Test(groups = IMPLEMENTED)
+    @Test(groups = {IMPLEMENTED, SECURITY})
     public static void checkImpossibilityToCompleteGETRequestsWithoutAuthorizationToken() {
-        checkGetRequestCannotFindProjectWithoutAuthorization();
+        checkGetRequestsCannotFindProjectWithoutAuthorization();
     }
 
     /**

@@ -4,7 +4,7 @@
     <test name="Issue API">
         <groups>
             <run>
-                <include name="Implemented"/>
+                <include name="SecurityTests"/>
                 <exclude name="InDevelopment"/>
             </run>
         </groups>

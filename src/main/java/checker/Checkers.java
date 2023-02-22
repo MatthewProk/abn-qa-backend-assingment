@@ -180,7 +180,7 @@ public class Checkers {
      * The method uses a SoftAssert to collect all the failures and then fail at the end.
      */
     @Step
-    public static void checkGetRequestCannotFindProjectWithoutAuthorization() {
+    public static void checkGetRequestsCannotFindProjectWithoutAuthorization() {
 
         SoftAssert softAssert = new SoftAssert();
         Issue issue = new Issue(new Random());
