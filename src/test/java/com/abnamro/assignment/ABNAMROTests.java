@@ -5,12 +5,16 @@ import com.abnamro.BaseTest;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import io.restassured.response.Response;
 import model.Issue;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.*;
 
 import static checker.Checkers.*;
+import static config.Config.getInvalidPrivateTokenValue;
+import static config.Config.getPrivateTokenValue;
 import static constants.TestGroups.*;
 import static org.testng.Assert.fail;
 import static util.RequestUtil.*;
@@ -55,7 +59,7 @@ public class ABNAMROTests extends BaseTest {
             " 6. Check the updated issue and the received issue are the same")
     @Severity(SeverityLevel.CRITICAL)
     @Test(groups = IMPLEMENTED, dataProvider = "updateIssue")
-    public static void checkIssueIsEditedSuccessfully(Map<String, String> data) {
+    public static void checkIssueIsUpdatedSuccessfully(Map<String, String> data) {
         Issue issue = new Issue(new Random());
         createIssue(issue);
         Issue updatedIssue = updateIssue(issue, data);
@@ -67,28 +71,103 @@ public class ABNAMROTests extends BaseTest {
 
     @Description("" +
             " 1. Initialize the Random expected issue with Iid, Title, Description and Type\n" +
-            " 2. Remove the header related to Private Token" +
-            " 3. Do project CREATE, UPDATE, DELETE requests\n" +
-            " 4. Add all this responses to new ArrayList" +
-            " 5. Check that response has status code 401\n" +
-            " 6. Return back the header related to Private Token")
+            " 2. Do CREATE request to create new issue based on initialized issue\n" +
+            " 3. Do UPDATE request to update current issue title to NULL\n" +
+            " 4. Check the update causes 404 error and message that a title cannot be updated")
     @Severity(SeverityLevel.CRITICAL)
-    @Test(groups = {IMPLEMENTED, SECURITY})
-    public static void checkImpossibilityToCompletePostPutAndDeleteRequestsWithoutAuthorizationToken() {
-        checkAuthorizationErrorForPostDeleteAndPutRequests();
+    @Test(groups = IMPLEMENTED)
+    public static void checkIssueTitleCannotBeUpdatedWithNull() {
+        Issue issue = new Issue(new Random());
+        createIssue(issue);
+        Response response = updateIssueTitleWithNull(issue);
+        checkIssueTitleCannotBeNull(response);
     }
 
     @Description("" +
             " 1. Initialize the Random expected issue with Iid, Title, Description and Type\n" +
-            " 2. Remove the header related to Private Token" +
-            " 3. Do project GET requests\n" +
-            " 4. Add all this responses to new ArrayList" +
-            " 5. Check that response has status code 404\n" +
+            " 2. Remove the header related to Private Token\n" +
+            " 3. Do project CREATE, UPDATE, DELETE requests\n" +
+            " 4. Add all this responses to new ArrayList\n" +
+            " 5. Check that response has status code 401\n" +
             " 6. Return back the header related to Private Token")
     @Severity(SeverityLevel.CRITICAL)
     @Test(groups = {IMPLEMENTED, SECURITY})
-    public static void checkImpossibilityToCompleteGETRequestsWithoutAuthorizationToken() {
-        checkGetRequestsCannotFindProjectWithoutAuthorization();
+    public static void checkImpossibilityToCompletePostPutAndDeleteRequestsWithoutPrivateToken() {
+        SoftAssert softAssert = new SoftAssert();
+        Issue issue = new Issue(new Random());
+
+        removeAuthorizationToken();
+        checkAuthorizationError(softAssert, getListOfDeletePostAndPutRequests(issue));
+        addAuthorizationToken(getPrivateTokenValue());
+
+        softAssert.assertAll();
+    }
+
+    @Description("" +
+            " 1. Initialize the Random expected issue with Iid, Title, Description and Type\n" +
+            " 2. Remove the header related to Private Token\n" +
+            " 3. Do project GET requests\n" +
+            " 4. Add all this responses to new ArrayList\n" +
+            " 5. Check that response has status code 404\n" +
+            " 6. Return back the header related to Private Token")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(groups = {IMPLEMENTED, SECURITY})
+    public static void checkImpossibilityToCompleteGETRequestsWithoutPrivateToken() {
+        SoftAssert softAssert = new SoftAssert();
+        Issue issue = new Issue(new Random());
+
+        removeAuthorizationToken();
+        checkRequestsHave404StatusCode(softAssert, getListOfGetRequests(issue));
+        addAuthorizationToken(getPrivateTokenValue());
+
+        softAssert.assertAll();
+    }
+
+    @Description("" +
+            " 1. Initialize the Random expected issue with Iid, Title, Description and Type\n" +
+            " 2. Remove the header related to Private Token\n" +
+            " 3. Add header with invalid token\n" +
+            " 4. Do project GET requests\n" +
+            " 5. Add all this responses to new ArrayList" +
+            " 6. Check that response has status code 404\n" +
+            " 2. Remove the header related to Invalid Private Token\n" +
+            " 6. Return back the header related to Real Private Token")
+    @Severity(SeverityLevel.NORMAL)
+    @Test(groups = {IMPLEMENTED, SECURITY})
+    public static void checkImpossibilityToCompleteGETRequestsWithInvalidToken() {
+        SoftAssert softAssert = new SoftAssert();
+        Issue issue = new Issue(new Random());
+
+        removeAuthorizationToken();
+        addAuthorizationToken(getInvalidPrivateTokenValue());
+        checkAuthorizationError(softAssert, getListOfDeletePostAndPutRequests(issue));
+        removeAuthorizationToken();
+        addAuthorizationToken(getPrivateTokenValue());
+
+        softAssert.assertAll();
+    }
+
+    @Description("" +
+            " 1. Initialize the Random expected issue with Iid, Title, Description and Type\n" +
+            " 2. Remove the header related to Private Token\n" +
+            " 3. Add header with invalid token\n" +
+            " 3. Do project CREATE, UPDATE, DELETE requests\n" +
+            " 5. Add all this responses to new ArrayList" +
+            " 6. Check that response has status code 404\n" +
+            " 2. Remove the header related to Invalid Private Token\n" +
+            " 6. Return back the header related to Real Private Token")
+    @Test(groups = {IMPLEMENTED, SECURITY})
+    public static void checkImpossibilityToCompletePostPutAndDeleteRequestsWithInvalidToken() {
+        SoftAssert softAssert = new SoftAssert();
+        Issue issue = new Issue(new Random());
+
+        removeAuthorizationToken();
+        addAuthorizationToken("Invalid");
+        checkAuthorizationError(softAssert, getListOfDeletePostAndPutRequests(issue));
+        removeAuthorizationToken();
+        addAuthorizationToken(getPrivateTokenValue());
+
+        softAssert.assertAll();
     }
 
     /**

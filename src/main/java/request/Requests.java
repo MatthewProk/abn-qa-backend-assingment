@@ -33,7 +33,7 @@ public class Requests {
      * @return The response of the REST API call.
      */
     @Step
-    public static Response getIssuesRequest(int projectId) {
+    protected static Response getIssuesRequest(int projectId) {
         return RestAssured
                 .given()
                 .get("projects/" + projectId + "/issues");
@@ -46,14 +46,13 @@ public class Requests {
      * @return The response of the REST API call.
      */
     @Step
-    public static Response createIssueRequest(Issue issue) {
+    protected static Response createIssueRequest(Issue issue) {
 
         return RestAssured
                 .given()
                 .body(gson.toJson(issue))
                 .post("projects/" + issue.getProjectId() + "/issues");
     }
-
 
     /**
      * The method sends a DELETE request to delete an issue with the specified projectId and Iid.
@@ -62,7 +61,7 @@ public class Requests {
      * @return The response of the REST API call.
      */
     @Step
-    public static Response deleteIssueRequest(Issue issue) {
+    protected static Response deleteIssueRequest(Issue issue) {
 
         return RestAssured
                 .given()
@@ -83,7 +82,6 @@ public class Requests {
                 .get("projects/" + issue.getProjectId() + "/issues/" + issue.getIid());
     }
 
-
     /**
      * The method sends a PUT request to update an issue with the specified projectId and Iid.
      *
@@ -91,7 +89,7 @@ public class Requests {
      * @return The response of the REST API call.
      */
     @Step
-    public static Response updateIssueRequest(Issue issue) {
+    protected static Response updateIssueRequest(Issue issue) {
         return RestAssured
                 .given()
                 .put("projects/" + issue.getProjectId() + "/issues/" + issue.getIid());

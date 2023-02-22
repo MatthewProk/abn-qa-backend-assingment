@@ -23,10 +23,8 @@
 * [Maven](https://maven.apache.org/) - Dependency management framework for Java-based projects
 
 ### Allure Report:
-
 ![results.png](results.png)
 
 ### Author:
-
 * **Matsvei Hrytsuk**
 

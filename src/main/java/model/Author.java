@@ -13,4 +13,5 @@ public class Author {
     @SerializedName("web_url")
     private String webUrl;
     private String username;
+
 }

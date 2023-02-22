@@ -1,6 +1,5 @@
 package util;
 
-import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import java.util.Random;

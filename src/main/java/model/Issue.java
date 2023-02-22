@@ -43,7 +43,7 @@ public class Issue {
         this.setIid(random.nextInt(1000));
         this.setProjectId(getProject());
         this.setDescription("Issue description: " + Util.generateRandomString(20, random));
-        this.setTitle("Issue description: " + Util.generateRandomString(8, random));
+        this.setTitle("Issue title: " + Util.generateRandomString(8, random));
         this.setType("ISSUE");
     }
 

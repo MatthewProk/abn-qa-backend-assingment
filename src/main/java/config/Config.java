@@ -61,6 +61,16 @@ public class Config {
     }
 
     /**
+     * This method gets value of "invalid_private_token_value" from resources and returns it as a string
+     *
+     * @return value of invalid_private_token_value
+     */
+    @Step
+    public static String getInvalidPrivateTokenValue() {
+        return prop.getProperty("invalid_private_token_value");
+    }
+
+    /**
      * This method gets value of "content_type" from resources and returns it as a string
      *
      * @return value of content_type

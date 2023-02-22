@@ -7,18 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.asserts.SoftAssert;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import static config.Config.getProject;
 import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.range;
 import static org.testng.Assert.*;
 import static request.Requests.*;
-import static util.RequestUtil.removeAuthorizationToken;
-import static util.RequestUtil.returnAuthorizationToken;
 
 public class Checkers {
 
@@ -117,11 +112,40 @@ public class Checkers {
      */
     @Step
     public static void checkObjectDoesNotExist(Response response) {
-        if (response.statusCode() == 404) {
-            LOGGER.info("Object does not exist! Status code: " + response.statusCode());
+        String message = response.getBody().asString();
+        int statusCode = response.statusCode();
+        if (statusCode == 404) {
+            LOGGER.info("Object does not exist! Status code: " + statusCode);
             assertTrue(true);
-        } else if (response.statusCode() == 200 || response.statusCode() == 201) {
-            fail("Object still exists! Message: " + response.getBody().asString());
+        } else if (statusCode == 200 || statusCode == 201) {
+            fail("Object still exists! Message: " + message);
+        } else {
+            fail("Something was wrong! It not clear if the object still exist. Make sense to recheck it!\n " +
+                    "Status code: " + statusCode + "\nMessage: " + message);
+        }
+    }
+
+
+    /**
+     * This method verifies that an attempt to update an issue with a null title results in a 400 response, as expected.
+     * If the response is not 400, the test fails with an appropriate message.
+     * If the response is 400, it also checks that the response body contains the expected error message.
+     *
+     * @param response the response of the request to update an issue with a null title
+     */
+    @Step
+    public static void checkIssueTitleCannotBeNull(Response response) {
+        String message = response.getBody().asString();
+        int statusCode = response.statusCode();
+        if (statusCode == 400) {
+            LOGGER.info("Issue title couldn't be updated with Null! It is expected result! " +
+                    "Status code: " + response.statusCode());
+            assertEquals(response.getBody().asString(), "{\"message\":{\"title\":[\"can't be blank\"]}}");
+        } else if (statusCode == 200 || statusCode == 201) {
+            fail("Issue title was update successfully! It is wrong result! Message: " + message);
+        } else {
+            fail("Unexpected Response! Issue title was not updated, but better clarify why this response has this: \n" +
+                    "Status code: " + statusCode + "\nMessage: " + message);
         }
     }
 
@@ -138,24 +162,12 @@ public class Checkers {
     }
 
     /**
-     * This method checks if authorization error is received for post, delete and put requests.
-     * It does it by removing authorization token, creating, updating, and deleting an issue,
-     * then checking if the status code of the response is 401.
-     * If it is, the test is successful, otherwise, it fails.
-     * It uses SoftAssert to continue test execution after failure,
-     * so that all test results can be collected in a single test run.
+     * Checks that each response in the given list contains an authorization error (401 status code).
+     *
+     * @param softAssert a SoftAssert object to collect multiple assertion failures
+     * @param responses  a list of Rest-Assured responses to check for authorization errors
      */
-    @Step
-    public static void checkAuthorizationErrorForPostDeleteAndPutRequests() {
-
-        SoftAssert softAssert = new SoftAssert();
-        Issue issue = new Issue(new Random());
-        removeAuthorizationToken();
-        List<Response> responses = Arrays.asList(
-                createIssueRequest(issue),
-                updateIssueRequest(issue),
-                deleteIssueRequest(issue));
-
+    public static void checkAuthorizationError(SoftAssert softAssert, List<Response> responses) {
         responses.forEach(response -> {
             int code = response.statusCode();
             String message = response.getBody().asString();
@@ -167,28 +179,15 @@ public class Checkers {
                         + code + ". Message: " + message);
             }
         });
-
-        returnAuthorizationToken();
-        softAssert.assertAll();
     }
 
     /**
-     * This method checks if the GET request cannot find project without authorization token.
-     * The method removes the authorization token, performs the GET requests on project and issue,
-     * and then checks the status code of the response. If the status code is 404, it is an expected result,
-     * otherwise, the method fails with a message.
-     * The method uses a SoftAssert to collect all the failures and then fail at the end.
+     * Checks that each response in the given list has a 404 status code.
+     *
+     * @param softAssert a SoftAssert object to collect multiple assertion failures
+     * @param responses  a list of Rest-Assured responses to check for 404 status codes
      */
-    @Step
-    public static void checkGetRequestsCannotFindProjectWithoutAuthorization() {
-
-        SoftAssert softAssert = new SoftAssert();
-        Issue issue = new Issue(new Random());
-        removeAuthorizationToken();
-        List<Response> responses = Arrays.asList(
-                getIssuesRequest(getProject()),
-                getIssueRequest(issue));
-
+    public static void checkRequestsHave404StatusCode(SoftAssert softAssert, List<Response> responses) {
         responses.forEach(response -> {
             int code = response.statusCode();
             String message = response.getBody().asString();
@@ -200,9 +199,6 @@ public class Checkers {
                         "There is point to recheck this request! Status Code: " + code + ". Message: " + message);
             }
         });
-
-        returnAuthorizationToken();
-        softAssert.assertAll();
     }
 
 }

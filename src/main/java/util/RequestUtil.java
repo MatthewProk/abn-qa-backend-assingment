@@ -13,6 +13,7 @@ import java.util.*;
 import static checker.Checkers.*;
 import static config.Config.*;
 import static io.restassured.RestAssured.requestSpecification;
+import static java.util.Arrays.asList;
 import static util.Util.responseToString;
 
 public class RequestUtil extends Requests {
@@ -60,8 +61,7 @@ public class RequestUtil extends Requests {
     public static List<Issue> getIssues(int projectId) {
         Response response = getIssuesRequest(projectId);
         checkPositiveStatusCode(response);
-        return gson.fromJson(responseToString(response), new TypeToken<List<Issue>>() {
-        }.getType());
+        return gson.fromJson(responseToString(response), new TypeToken<List<Issue>>() {}.getType());
     }
 
     /**
@@ -94,6 +94,12 @@ public class RequestUtil extends Requests {
         return gson.fromJson(responseToString(response), Issue.class);
     }
 
+    @Step
+    public static Response updateIssueTitleWithNull(Issue issue) {
+        requestSpecification.queryParam("title", (Object) null);
+        return updateIssueRequest(issue);
+    }
+
     /**
      * This method is responsible for cleaning up the test issues by deleting them.
      * It retrieves a list of issues by calling getIssues() method with the current project.
@@ -114,8 +120,8 @@ public class RequestUtil extends Requests {
      * The private token is obtained from the configuration file.
      */
     @Step
-    public static void returnAuthorizationToken() {
-        RestAssured.requestSpecification.header(getPrivateToken(), getPrivateTokenValue());
+    public static void addAuthorizationToken(String token) {
+        RestAssured.requestSpecification.header(getPrivateToken(), token);
     }
 
     /**
@@ -124,6 +130,29 @@ public class RequestUtil extends Requests {
     @Step
     public static void removeAuthorizationToken() {
         ((RequestSpecificationImpl) RestAssured.requestSpecification).removeHeader(getPrivateToken());
+    }
+
+    /**
+     * Returns a list of Rest-Assured requests to get all issues and a single issue by ID.
+     *
+     * @param issue the issue to retrieve
+     * @return a list of Rest-Assured requests
+     */
+    public static List<Response> getListOfGetRequests(Issue issue) {
+        return asList(getIssuesRequest(getProject()),
+                getIssueRequest(issue));
+    }
+
+    /**
+     * Returns a list of Rest-Assured requests to create, update, and delete an issue.
+     *
+     * @param issue the issue to perform the requests on
+     * @return a list of Rest-Assured requests
+     */
+    public static List<Response> getListOfDeletePostAndPutRequests(Issue issue) {
+        return asList(createIssueRequest(issue),
+                updateIssueRequest(issue),
+                deleteIssueRequest(issue));
     }
 
 }

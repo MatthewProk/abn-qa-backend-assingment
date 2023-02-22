@@ -23,18 +23,18 @@ public class BaseTest {
     public Object[][] dataProvider() {
         Map<String, String> updateIssueWith1Parameter = new HashMap<>() {
             {
-                put("title", "Updated Title");
+                put("title", "First Updated Title");
             }
         };
         Map<String, String> updateIssueWith2Parameters = new HashMap<>() {
             {
-                put("title", "Updated Title");
+                put("title", "Second Updated Title");
                 put("issue_type", "incident");
             }
         };
         Map<String, String> updateIssueWith3Parameters = new HashMap<>() {
             {
-                put("title", "Updated Title");
+                put("title", "Third Updated Title");
                 put("issue_type", "incident");
                 put("description", "Updated Description");
 
