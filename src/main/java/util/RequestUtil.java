@@ -2,6 +2,8 @@ package util;
 
 import com.google.gson.reflect.TypeToken;
 import io.qameta.allure.Step;
+import io.restassured.RestAssured;
+import io.restassured.internal.RequestSpecificationImpl;
 import io.restassured.response.Response;
 import model.Issue;
 import request.Requests;
@@ -9,7 +11,7 @@ import request.Requests;
 import java.util.*;
 
 import static checker.Checkers.*;
-import static config.Config.getProject;
+import static config.Config.*;
 import static io.restassured.RestAssured.requestSpecification;
 import static util.Util.responseToString;
 
@@ -105,6 +107,23 @@ public class RequestUtil extends Requests {
         while (!getIssues(getProject()).isEmpty()) {
             issues.forEach(RequestUtil::deleteIssue);
         }
+    }
+
+    /**
+     * This method adds the private token header to the request specification with its value.
+     * The private token is obtained from the configuration file.
+     */
+    @Step
+    public static void returnAuthorizationToken() {
+        RestAssured.requestSpecification.header(getPrivateToken(), getPrivateTokenValue());
+    }
+
+    /**
+     * This method removes the private token header from the request specification with its value.
+     */
+    @Step
+    public static void removeAuthorizationToken() {
+        ((RequestSpecificationImpl) RestAssured.requestSpecification).removeHeader(getPrivateToken());
     }
 
 }

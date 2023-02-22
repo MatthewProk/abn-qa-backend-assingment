@@ -5,13 +5,20 @@ import io.restassured.response.Response;
 import model.Issue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.asserts.SoftAssert;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import static config.Config.getProject;
 import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.range;
 import static org.testng.Assert.*;
-import static request.Requests.getIssueRequest;
+import static request.Requests.*;
+import static util.RequestUtil.removeAuthorizationToken;
+import static util.RequestUtil.returnAuthorizationToken;
 
 public class Checkers {
 
@@ -128,6 +135,74 @@ public class Checkers {
     public static void checkIssueDoesNotExist(Issue issue) {
         Response response = getIssueRequest(issue);
         checkObjectDoesNotExist(response);
+    }
+
+    /**
+     * This method checks if authorization error is received for post, delete and put requests.
+     * It does it by removing authorization token, creating, updating, and deleting an issue,
+     * then checking if the status code of the response is 401.
+     * If it is, the test is successful, otherwise, it fails.
+     * It uses SoftAssert to continue test execution after failure,
+     * so that all test results can be collected in a single test run.
+     */
+    @Step
+    public static void checkAuthorizationErrorForPostDeleteAndPutRequests() {
+
+        SoftAssert softAssert = new SoftAssert();
+        Issue issue = new Issue(new Random());
+        removeAuthorizationToken();
+        List<Response> responses = Arrays.asList(
+                createIssueRequest(issue),
+                updateIssueRequest(issue),
+                deleteIssueRequest(issue));
+
+        responses.forEach(response -> {
+            int code = response.statusCode();
+            String message = response.getBody().asString();
+            if (code == 401) {
+                LOGGER.info("Authorization error was received!!! It is expected result!!! Response message: " + message);
+                softAssert.assertTrue(true);
+            } else {
+                softAssert.fail("Authorization was completed successfully or error is not related to authorization! Status Code: "
+                        + code + ". Message: " + message);
+            }
+        });
+
+        returnAuthorizationToken();
+        softAssert.assertAll();
+    }
+
+    /**
+     * This method checks if the GET request cannot find project without authorization token.
+     * The method removes the authorization token, performs the GET requests on project and issue,
+     * and then checks the status code of the response. If the status code is 404, it is an expected result,
+     * otherwise, the method fails with a message.
+     * The method uses a SoftAssert to collect all the failures and then fail at the end.
+     */
+    @Step
+    public static void checkGetRequestCannotFindProjectWithoutAuthorization() {
+
+        SoftAssert softAssert = new SoftAssert();
+        Issue issue = new Issue(new Random());
+        removeAuthorizationToken();
+        List<Response> responses = Arrays.asList(
+                getIssuesRequest(getProject()),
+                getIssueRequest(issue));
+
+        responses.forEach(response -> {
+            int code = response.statusCode();
+            String message = response.getBody().asString();
+            if (code == 404) {
+                LOGGER.info("Request could not be completed and failed with 404! It is expected result!!! Response message: " + message);
+                softAssert.assertTrue(true);
+            } else {
+                softAssert.fail("The request was completed or was failed not with 404! It is wrong result! " +
+                        "There is point to recheck this request! Status Code: " + code + ". Message: " + message);
+            }
+        });
+
+        returnAuthorizationToken();
+        softAssert.assertAll();
     }
 
 }

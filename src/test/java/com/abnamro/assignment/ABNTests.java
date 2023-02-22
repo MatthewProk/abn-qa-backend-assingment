@@ -66,6 +66,32 @@ public class ABNTests extends BaseTest {
         checkIssuesAreTheSame(updatedIssue, receivedIssue);
     }
 
+    @Description("" +
+            " 1. Initialize the Random expected issue with Iid, Title, Description and Type\n" +
+            " 2. Remove the header related to Private Token" +
+            " 3. Do project CREATE, UPDATE, DELETE requests\n" +
+            " 4. Add all this responses to new ArrayList" +
+            " 5. Check that response has status code 401\n" +
+            " 6. Return back the header related to Private Token")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test(groups = IMPLEMENTED)
+    public static void checkImpossibilityToCompletePostPutAndDeleteRequestsWithoutAuthorizationToken() {
+        checkAuthorizationErrorForPostDeleteAndPutRequests();
+    }
+
+    @Description("" +
+            " 1. Initialize the Random expected issue with Iid, Title, Description and Type\n" +
+            " 2. Remove the header related to Private Token" +
+            " 3. Do project GET requests\n" +
+            " 4. Add all this responses to new ArrayList" +
+            " 5. Check that response has status code 404\n" +
+            " 6. Return back the header related to Private Token")
+    @Severity(SeverityLevel.CRITICAL)
+    @Test(groups = IMPLEMENTED)
+    public static void checkImpossibilityToCompleteGETRequestsWithoutAuthorizationToken() {
+        checkGetRequestCannotFindProjectWithoutAuthorization();
+    }
+
     /**
      * This test was added to show that it should not be added to test run because of group = IN_DEVELOPMENT
      */

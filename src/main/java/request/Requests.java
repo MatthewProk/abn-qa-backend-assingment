@@ -33,7 +33,7 @@ public class Requests {
      * @return The response of the REST API call.
      */
     @Step
-    protected static Response getIssuesRequest(int projectId) {
+    public static Response getIssuesRequest(int projectId) {
         return RestAssured
                 .given()
                 .get("projects/" + projectId + "/issues");
@@ -46,7 +46,7 @@ public class Requests {
      * @return The response of the REST API call.
      */
     @Step
-    protected static Response createIssueRequest(Issue issue) {
+    public static Response createIssueRequest(Issue issue) {
 
         return RestAssured
                 .given()
@@ -62,7 +62,7 @@ public class Requests {
      * @return The response of the REST API call.
      */
     @Step
-    protected static Response deleteIssueRequest(Issue issue) {
+    public static Response deleteIssueRequest(Issue issue) {
 
         return RestAssured
                 .given()
@@ -91,7 +91,7 @@ public class Requests {
      * @return The response of the REST API call.
      */
     @Step
-    protected static Response updateIssueRequest(Issue issue) {
+    public static Response updateIssueRequest(Issue issue) {
         return RestAssured
                 .given()
                 .put("projects/" + issue.getProjectId() + "/issues/" + issue.getIid());

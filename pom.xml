@@ -43,6 +43,21 @@
             <artifactId>allure-testng</artifactId>
             <version>2.21.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.20.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -56,6 +71,9 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${testng.file}</suiteXmlFile>
                     </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <logback.configurationFile>src/main/resources/logback.xml</logback.configurationFile>
+                    </systemPropertyVariables>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
@@ -80,14 +98,5 @@
 
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>RunAPI</id>
-            <properties>
-                <testng.file>src/test/resources/testng.xml</testng.file>
-            </properties>
-        </profile>
-    </profiles>
 
 </project>

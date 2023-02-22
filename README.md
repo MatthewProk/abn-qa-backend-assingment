@@ -1,47 +1,26 @@
-# Backend Test Automation Assignment [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
+# ABN AMRO Backend Test Automation Assignment
 
-<a href="https://gitpod.io/from-referrer/" style="padding: 10px;">
-    <img src="https://gitpod.io/button/open-in-gitpod.svg" width="150" alt="Push">
-</a>
+  Automation tests for IssueAPI of gitlab.
 
-## Requirements
-### Environment
-* GitHub account
-* Java 11 (JDK) (optionally)
-* Maven 3.6+ (optionally)
-* Any IDE you comfortable with (eg. IntelliJ, VSCode)
+### Prerequisites
+* Java 11 (JDK) 
+* Maven 3.3+ 
+* Git
 
-### Skills
-* Java 8+ (coding standards)
-* Clean Code
-* Maven
-* Git, GitLab, GitHub
+### Instruction
+* Clone the project: 'git clone https://github.com/MatthewProk/abn-qa-backend-assingment.git'
+* Navigate to the root directory of the project
+* Run test using terminal: 'mvn clean install'
+* Generate and open report : 'mvn allure:serve'
 
-### Instructions
-Fork this project
-<details>
-<summary>Example</summary>
+### What was used: 
+* [Rest-Assured](https://rest-assured.io/) - Java-based library for testing REST APIs.
+* [TestNG](https://testng.org/) - Testing framework for the Java programming language created
+* [Allure Report](https://qameta.io/) - 
+* [Maven](https://maven.apache.org/) - Dependency management framework for Java-based projects
 
-   ![img.png](doc/img/01_fork_project.png)
-</details>
+### Author
 
-#### Working in Web IDE (preferable)
+* **Matsvei Hrytsuk**
 
-1. Open Project in [GitPod](https://gitpod.io/from-referrer/):
-2. Sing-in with GitHub account
-3. Create and commit your solution into your forked repository
-4. Create documentation in the README.md under the `Documentation` section
-5. IMPORTANT: Enable Repository permissions (e.g. git push) for GitPod when coding from Web IDE here:
-   https://gitpod.io/integrations
-   <details>
-   <summary>Details here</summary>
-
-   Edit permission for GitHub:
-
-   ![img.png](doc/img/02_integration_providers.png)
-
-   ![img.png](doc/img/02_enable_repo_permissions.png)
-   </details>
-
-## Documentation
-_<< Your documentation comes here >>_
+### Allure Report
