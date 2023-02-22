@@ -162,7 +162,7 @@ public class ABNAMROTests extends BaseTest {
         Issue issue = new Issue(new Random());
 
         removeAuthorizationToken();
-        addAuthorizationToken("Invalid");
+        addAuthorizationToken(getInvalidPrivateTokenValue());
         checkAuthorizationError(softAssert, getListOfDeletePostAndPutRequests(issue));
         removeAuthorizationToken();
         addAuthorizationToken(getPrivateTokenValue());
